@@ -1,0 +1,9 @@
+[package]
+name = "sqlx-examples"
+version = "0.1.0"
+authors = ["Mendelt Siebenga <msiebenga@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+sqlx = "0.4.0-beta.1"
+
