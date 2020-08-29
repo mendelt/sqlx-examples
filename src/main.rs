@@ -1,5 +1,5 @@
 use sqlx::postgres::PgConnection;
-use sqlx::{Connection, Executor};
+use sqlx::prelude::*;
 
 #[async_std::main]
 async fn main() -> Result<(), sqlx::Error> {
@@ -10,9 +10,10 @@ async fn main() -> Result<(), sqlx::Error> {
 
     conn.execute("BEGIN").await?;
 
-    // let row: (i64,) = sqlx::query_as("SELECT $1")
-    //     .bind(150_i64)
-    //     .fetch_one(&conn).await?;
+    let row: (i64,) = sqlx::query_as("SELECT $1")
+        .bind(150_i64)
+        .fetch_one(&mut conn)
+        .await?;
 
     Ok(())
 }
