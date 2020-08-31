@@ -1,6 +1,7 @@
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use sqlx::prelude::*;
 use sqlx::{query_as, PgPool};
-use serde_json::Value;
 
 const DB_URI: &str = "postgresql://example-user:password123@localhost:5432/example-database";
 
@@ -8,14 +9,21 @@ const DB_URI: &str = "postgresql://example-user:password123@localhost:5432/examp
 async fn main() -> Result<(), sqlx::Error> {
     let pool = connect_db(DB_URI).await;
 
-    let stuff = query_as::<_, JsonStuff>( 
-        "SELECT id, name, json_stuff FROM json_table")
-        .fetch_all(&pool)
-        .await?;
+    let stuff = pool.list_jsonstuff().await;
 
     println!("{:?}", stuff);
 
     Ok(())
+}
+
+pub trait JsonTableRepo {
+    fn get_database(&self) -> &PgPool;
+
+    async fn list_jsonstuff(&self) -> Result<Vec<JsonStuff>, sqlx::Error> {
+        query_as::<_, JsonStuff>("SELECT id, name, json_stuff FROM json_table")
+            .fetch_all(self.get_database)
+            .await?;
+    }
 }
 
 #[derive(Debug, FromRow)]
