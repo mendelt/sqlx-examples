@@ -7,6 +7,5 @@ edition = "2018"
 [dependencies]
 sqlx = { version="0.4.0-beta.1", features=["postgres", "json"] }
 async-std = { version="1.6.3", features=["attributes"] }
-
-[dev-dependencies]
-serde_json = "1.0"
+serde = "1.0.115"
+serde_json = "1.0.57"
