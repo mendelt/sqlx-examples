@@ -37,13 +37,13 @@ pub trait JsonTableRepo {
         query("INSERT INTO json_table (name, json_stuff) VALUES (?, ?);")
             .bind(name)
             .bind(json_stuff)
-            .execute(self.get_database())
+            .execute(self.database())
             .await
     }
 
     async fn list_jsonstuff(&self) -> Result<Vec<JsonStuff>, sqlx::Error> {
         query_as::<_, JsonStuff>("SELECT id, name, json_stuff FROM json_table")
-            .fetch_all(self.get_database())
+            .fetch_all(self.database())
             .await
     }
 }
