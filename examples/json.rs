@@ -27,7 +27,7 @@ async fn main() -> Result<(), sqlx::Error> {
 
 #[async_trait]
 pub trait JsonTableRepo {
-    fn get_database(&self) -> &PgPool;
+    fn database(&self) -> &PgPool;
 
     async fn store_jsonstuff(
         &self,
@@ -49,7 +49,7 @@ pub trait JsonTableRepo {
 }
 
 impl JsonTableRepo for PgPool {
-    fn get_database(&self) -> &PgPool {
+    fn database(&self) -> &PgPool {
         &self
     }
 }
